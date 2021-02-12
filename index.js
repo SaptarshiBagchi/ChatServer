@@ -42,7 +42,9 @@ io.on("connection", socket => {
   socket.on("sendMessage", (message, callback) => {
     const user = getUser(socket.id);
 
-    io.to(user.room).emit("message", { user: user.name, text: message });
+    socket
+      .to(user.room)
+      .emit("room-message", { user: user.name, text: message });
 
     callback();
   });
