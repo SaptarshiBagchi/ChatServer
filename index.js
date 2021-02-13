@@ -4,14 +4,14 @@ const http = require("http");
 
 const router = require("./router");
 const port = process.env.PORT || 5000;
-
+const cors = require("cors");
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 const { addUser, removeUser, getUser, getUsersInRoom } = require("./users.js");
 
 app.use(router);
-
+app.use(cors());
 io.on("connection", socket => {
   /** When the event has been fired from the client */
   socket.on("join", ({ name, room }, callback) => {
