@@ -15,11 +15,14 @@ app.use(router);
 io.on("connection", socket => {
   /** When the event has been fired from the client */
   socket.on("join", ({ name, room }, callback) => {
-    console.log(name, room);
+    console.log(
+      `user joined with id: ${socket.id} and name : ${name} and room ${room}`
+    );
     const { error, user } = addUser({ id: socket.id, name, room });
 
     if (error) return callback(error);
 
+    console.log(`joining user in room : ${user.room}`);
     socket.join(user.room);
 
     socket.emit("message", {
@@ -41,10 +44,10 @@ io.on("connection", socket => {
   //listen to sent messages
   socket.on("sendMessage", (message, callback) => {
     const user = getUser(socket.id);
-
-    socket
-      .to(user.room)
-      .emit("room-message", { user: user.name, text: message });
+    console.log(
+      `message here with socketId : ${socket.id} and ${user.name} and ${user.room}`
+    );
+    io.to(user.room).emit("message", { user: user.name, text: message });
 
     callback();
   });
