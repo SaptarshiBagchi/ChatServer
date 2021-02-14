@@ -9,12 +9,12 @@ router.get("/", (req, res) => {
 router.get("/getusernameavailable", (req, res) => {
   const name = req.query.name;
   if (!name) {
-    res.send("Please send a username first");
+    return res.status(403).send({ message: "Nope" });
   }
   const user = getUserByName(name.trim().toLowerCase());
-  if (user) res.status(403).send("username not available");
+  if (user) return res.status(403).send({ message: "Nope" });
 
-  res.status(200).send("available");
+  return res.status(200).send({ message: "Success" });
 });
 
 module.exports = router;

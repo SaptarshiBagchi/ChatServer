@@ -9,9 +9,9 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 const { addUser, removeUser, getUser, getUsersInRoom } = require("./users.js");
-
-app.use(router);
 app.use(cors());
+app.use(router);
+
 io.on("connection", socket => {
   /** When the event has been fired from the client */
   socket.on("join", ({ name, room }, callback) => {
