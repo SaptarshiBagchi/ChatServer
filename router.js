@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { getUser, getUserByName } = require("./users.js");
+const { getUser, getUserByName, getUserAvailable } = require("./users.js");
 
 router.get("/", (req, res) => {
   res.send("Server is up and running");
@@ -8,10 +8,14 @@ router.get("/", (req, res) => {
 
 router.get("/getusernameavailable", (req, res) => {
   const name = req.query.name;
+  const room = req.query.room;
   if (!name) {
     return res.status(403).send({ message: "Nope" });
   }
-  const user = getUserByName(name.trim().toLowerCase());
+  const user = getUserAvailable(
+    name.trim().toLowerCase(),
+    room.trim().toLowerCase()
+  );
   if (user) return res.status(403).send({ message: "Nope" });
 
   return res.status(200).send({ message: "Success" });

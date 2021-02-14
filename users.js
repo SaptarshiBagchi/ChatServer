@@ -25,6 +25,9 @@ const getUser = id => users.find(user => user.id === id);
 
 const getUserByName = name => users.find(user => user.name === name);
 
+const getUserAvailable = (name, room) =>
+  users.find(user => user.name === name && user.room === room);
+
 const getUsersInRoom = room => users.filter(user => user.room === room);
 
 module.exports = {
@@ -32,5 +35,6 @@ module.exports = {
   removeUser,
   getUser,
   getUsersInRoom,
-  getUserByName
+  getUserByName,
+  getUserAvailable
 };
